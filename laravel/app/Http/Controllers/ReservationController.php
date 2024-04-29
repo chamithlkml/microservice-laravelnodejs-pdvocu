@@ -61,9 +61,17 @@ class ReservationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ?Reservation $reservation)
     {
-        //
+        $reservation->update($request->validate([
+            'customer_name' => 'string',
+            'customer_email' => 'email',
+            'arrival_time' => 'date',
+            'departure_time' => 'date',
+            'payment_status' => 'string'
+        ]));
+
+        return response()->json($reservation, 200);
     }
 
 }
