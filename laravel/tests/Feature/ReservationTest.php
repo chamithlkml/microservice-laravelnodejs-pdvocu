@@ -6,7 +6,12 @@ use Faker\Factory as Faker;
 
 class ReservationTest extends TestCase
 {
-  public function test_create_product_api(){
+  /**
+   * Testing POST /api/reservations
+   *
+   * @return void
+   */
+  public function test_create_reservation_api(){
     $faker = Faker::create();
     $reservationData = [
       'reservation_code' => $faker->uuid(),
@@ -22,11 +27,15 @@ class ReservationTest extends TestCase
     $response->assertStatus(200);
   }
 
-  public function test_get_all_products_api(){
+  public function test_get_all_reservations_api(){
 
   }
 
-  public function test_get_product_api(){
+  public function test_get_reservations_api(){
+    
+  }
+
+  public function test_update_reservations_api(){
     
   }
 }
