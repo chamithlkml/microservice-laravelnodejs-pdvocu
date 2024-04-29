@@ -25,7 +25,7 @@ class UserAuthController extends Controller
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
-            'auth_token' => $user->createToken('access-token-' . $this->id)->plainTextToken
+            'auth_token' => $user->createToken('access-token-' . $user->id)->plainTextToken
         ];
 
         return response()->json($userResponse, 200);
