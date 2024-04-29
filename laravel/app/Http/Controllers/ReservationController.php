@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
+use App\Services\ReservationQueue;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -40,6 +41,12 @@ class ReservationController extends Controller
         ]);
 
         $reservation = Reservation::create($reservationData);
+
+        if($reservation->payment_status == 'paid'){
+            $reservationQueue = new ReservationQueue(env('AWS_RESERVATION_QUEUE'));
+            $reservationQueue->sendMessage($reservation);
+        }
+
         return response()->json($reservation, 200);
     }
 
@@ -70,6 +77,11 @@ class ReservationController extends Controller
             'departure_time' => 'date',
             'payment_status' => 'string'
         ]));
+
+        if($reservation->payment_status == 'paid'){
+            $reservationQueue = new ReservationQueue(env('AWS_RESERVATION_QUEUE'));
+            $reservationQueue->sendMessage($reservation);
+        }
 
         return response()->json($reservation, 200);
     }
