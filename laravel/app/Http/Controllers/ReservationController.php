@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reservation;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ReservationController extends Controller
 {
@@ -22,9 +25,19 @@ class ReservationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        //
+        $reservationData = $request->validate([
+            'reservation_code' => 'required|string|unique:reservations,reservation_code',
+            'customer_name' => 'required|string',
+            'customer_email' => 'required|email',
+            'arrival_time' => 'required|date|after:departure_time',
+            'departure_time' => 'required|date',
+            'payment_status' => 'required|string'
+        ]);
+
+        $reservation = Reservation::create($reservationData);
+        return response()->json($reservation, 200);
     }
 
     /**

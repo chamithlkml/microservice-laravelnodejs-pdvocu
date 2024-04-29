@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->string('reservation_code');
+            $table->string('reservation_code')->unique();
             $table->string('customer_name');
             $table->string('customer_email');
             $table->dateTime('arrival_time');
