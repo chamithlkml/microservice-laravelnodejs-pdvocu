@@ -14,9 +14,12 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        $reservationsWithPagination = Reservation::orderByDesc('created_at')
+            ->paginate(10);
+
+        return response()->json($reservationsWithPagination, 200);
     }
 
     /**
@@ -46,9 +49,9 @@ class ReservationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Reservation $reservation)
     {
-        //
+        return response()->json($reservation, 200);
     }
 
     /**
