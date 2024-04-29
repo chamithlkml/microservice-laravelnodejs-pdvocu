@@ -31,7 +31,7 @@ class ReservationController extends Controller
             'reservation_code' => 'required|string|unique:reservations,reservation_code',
             'customer_name' => 'required|string',
             'customer_email' => 'required|email',
-            'arrival_time' => 'required|date|after:departure_time',
+            'arrival_time' => 'required|date',
             'departure_time' => 'required|date',
             'payment_status' => 'required|string'
         ]);
