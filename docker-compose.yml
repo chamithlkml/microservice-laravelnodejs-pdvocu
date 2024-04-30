@@ -7,22 +7,32 @@ services:
     ports:
       - 80:80
       - 443:443
+    networks:
+      - myapp-net
     environment:
       WEB_DOCUMENT_ROOT: /var/www/public/
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:3
     ports:
       - 15672:15672
+      - 5672:5672
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - myapp-net
   redis:
     image: redis:alpine
     volumes:
       - redis_data:/data
+    networks:
+      - myapp-net
   node:
     image: node:18-alpine
+    container_name: node
     volumes:
       - ./node:/app
+    networks:
+      - myapp-net
     working_dir: /app
     command: sh -c "/usr/local/bin/npm i --prefix /app && /usr/local/bin/npm run dev --prefix /app"
   db:
@@ -37,6 +47,12 @@ services:
       MYSQL_ROOT_PASSWORD: 'password'
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - myapp-net
+
+networks:
+  myapp-net:
+    driver: bridge
 
 volumes:
   mysql_data:

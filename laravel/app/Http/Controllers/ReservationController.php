@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use App\Services\ReservationQueue;
+use App\Services\ReservationQueueRabbitmq;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -79,8 +80,10 @@ class ReservationController extends Controller
         ]));
 
         if($reservation->payment_status == 'paid'){
-            $reservationQueue = new ReservationQueue(env('AWS_RESERVATION_QUEUE'));
-            $reservationQueue->sendMessage($reservation);
+            // $reservationQueue = new ReservationQueue(env('AWS_RESERVATION_QUEUE'));
+            // $reservationQueue->sendMessage($reservation);
+            $reservationQueue = new ReservationQueueRabbitmq(env('RABBITMQ_RESERVATION_QUEUE'));
+            $reservationQueue->sendMessge('test message');
         }
 
         return response()->json($reservation, 200);
