@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 class UserAuthController extends Controller
 {
 
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
         $userData = $request->validate([
             'name' => 'required|string',
@@ -30,5 +31,10 @@ class UserAuthController extends Controller
 
         return response()->json($userResponse, 200);
     
+    }
+
+    public function index(Request $request): JsonResponse
+    {
+        return response()->json($request->user(), 200);
     }
 }

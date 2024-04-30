@@ -16,11 +16,11 @@ use App\Http\Controllers\ReservationController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::post('auth/register', [UserAuthController::class, 'register']);
 
+Route::get('auth/user', [UserAuthController::class, 'index'])
+    ->middleware('auth:sanctum');
+
 Route::resource('reservations', ReservationController::class)
-    ->except(['create', 'edit', 'destroy']);
+    ->except(['create', 'edit', 'destroy'])
+    ->middleware('auth:sanctum');
