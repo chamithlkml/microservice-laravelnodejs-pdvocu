@@ -40,11 +40,16 @@
 						"key": "Accept",
 						"value": "application/json",
 						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 2|RKKQmBPYUsAH1HVpak34IcJ5gfex5SkH4ldyTYAZ8c368ead",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"reservation_code\": \"abced\",\n    \"customer_email\": \"chamithlkml@gmail.com\",\n    \"arrival_time\": \"2024-06-02 00:00:00\",\n    \"departure_time\": \"2024-05-02 00:00:00\",\n    \"payment_status\": \"pending\"\n}",
+					"raw": "{\n    \"customer_name\": \"Ruzzel Peters\",\n    \"customer_email\": \"ruzzel@gmail.com\",\n    \"arrival_time\": \"2024-06-02 00:00:00\",\n    \"departure_time\": \"2024-05-02 00:00:00\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -78,7 +83,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"reservation_code\": \"abced\",\n    \"customer_email\": \"chamithlkml@gmail.com\",\n    \"arrival_time\": \"2024-06-02 00:00:00\",\n    \"departure_time\": \"2024-05-02 00:00:00\",\n    \"payment_status\": \"pending\"\n}",
+					"raw": "{\n    \"name\": \"Phillers\",\n    \"email\": \"usessrseven@gmail.com\",\n    \"password\": \"1q2w3e4r5t6y78u\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -86,14 +91,58 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost/api/reservations",
+					"raw": "http://localhost/api/auth/register",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"api",
-						"reservations"
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 2|RKKQmBPYUsAH1HVpak34IcJ5gfex5SkH4ldyTYAZ8c368ead",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Phillers\",\n    \"email\": \"usessrseven@gmail.com\",\n    \"password\": \"1q2w3e4r5t6y78u\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/api/auth/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"auth",
+						"user"
 					]
 				}
 			},
@@ -102,17 +151,22 @@
 		{
 			"name": "Update Reservation",
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [
 					{
 						"key": "Accept",
 						"value": "application/json",
 						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 2|RKKQmBPYUsAH1HVpak34IcJ5gfex5SkH4ldyTYAZ8c368ead",
+						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"reservation_code\": \"abced\",\n    \"customer_email\": \"chamithlkml@gmail.com\",\n    \"arrival_time\": \"2024-06-02 00:00:00\",\n    \"departure_time\": \"2024-05-02 00:00:00\",\n    \"payment_status\": \"pending\"\n}",
+					"raw": "{\n    \"payment_status\": \"paid\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -120,14 +174,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost/api/reservations",
+					"raw": "http://localhost/api/reservations/31",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"api",
-						"reservations"
+						"reservations",
+						"31"
 					]
 				}
 			},
@@ -145,6 +200,11 @@
 						"key": "Accept",
 						"value": "application/json",
 						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 2|RKKQmBPYUsAH1HVpak34IcJ5gfex5SkH4ldyTYAZ8c368ead",
+						"type": "text"
 					}
 				],
 				"body": {
@@ -157,7 +217,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost/api/reservations?page=2",
+					"raw": "http://localhost/api/reservations",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -165,12 +225,6 @@
 					"path": [
 						"api",
 						"reservations"
-					],
-					"query": [
-						{
-							"key": "page",
-							"value": "2"
-						}
 					]
 				}
 			},
@@ -188,6 +242,11 @@
 						"key": "Accept",
 						"value": "application/json",
 						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 2|RKKQmBPYUsAH1HVpak34IcJ5gfex5SkH4ldyTYAZ8c368ead",
+						"type": "text"
 					}
 				],
 				"body": {
@@ -200,20 +259,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost/api/reservations?page=2",
+					"raw": "http://localhost/api/reservations/11",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"path": [
 						"api",
-						"reservations"
-					],
-					"query": [
-						{
-							"key": "page",
-							"value": "2"
-						}
+						"reservations",
+						"11"
 					]
 				}
 			},
