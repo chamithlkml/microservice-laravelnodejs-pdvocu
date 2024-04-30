@@ -1,8 +1,7 @@
 import amqplib, { ConsumeMessage } from 'amqplib'
 import { RABBITMQ_RESERVATION_QUEUE, RABBITMQ_HOST, RABBITMQ_PORT, RABBITMQ_USER, RABBITMQ_PASSWORD, RABBITMQ_EXCHANGE, RABBITMQ_ROUTING_KEY } from '../secrets'
 
-export const listenForMessages = async (): Promise<ConsumeMessage> => {
-  return new Promise(async (resolve, reject) => {
+export const listenForMessages = async (): Promise<void> => {
     try {
       const connection = await amqplib.connect(`amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@${RABBITMQ_HOST}:${RABBITMQ_PORT}/`)
       const channel = await connection.createChannel();
@@ -14,8 +13,8 @@ export const listenForMessages = async (): Promise<ConsumeMessage> => {
         RABBITMQ_RESERVATION_QUEUE,
         (message) => {
           if(message){
+            // Processing
             console.log('RECEIVED MESSAGE', message.content.toString());
-            resolve(message);
             channel.ack(message);
           }else{
             console.log('Consumer cancelled by server')
@@ -26,7 +25,5 @@ export const listenForMessages = async (): Promise<ConsumeMessage> => {
       console.log('waiting for messages');
     } catch (error) {
       console.error(error);
-      reject(error);
-    } 
-  });
+    }
 };

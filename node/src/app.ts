@@ -9,9 +9,7 @@ import { processMessages } from "./sqs/processMessages"; // AWS SQS Listener
     // }
 
 
-    const message = await listenForMessages();
-    console.log("PROCESSING!!!!");
-    console.log(message.content.toString());
+    await listenForMessages();
   }catch(error){
     console.log('Error in long polling loop', error);
   }
