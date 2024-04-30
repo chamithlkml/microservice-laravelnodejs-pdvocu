@@ -12,6 +12,8 @@ class ReservationTest extends TestCase
    * @return void
    */
   public function test_create_reservation_api(){
+    $user = User::factory()->create();
+    $accessToken = $user->createToken('access-token-' . $user->id)->plainTextToken;
     $faker = Faker::create();
     $reservationData = [
       'reservation_code' => $faker->uuid(),
@@ -22,20 +24,21 @@ class ReservationTest extends TestCase
       'payment_status' => 'pending',
     ];
     $response = $this->withHeaders([
-      'Accept' => 'Application/json'
+      'Accept' => 'Application/json',
+      'Authorization' => 'Bearer ' . $accessToken
     ])->post('/api/reservations', $reservationData);
     $response->assertStatus(200);
   }
 
-  public function test_get_all_reservations_api(){
+  // public function test_get_all_reservations_api(){
 
-  }
+  // }
 
-  public function test_get_reservations_api(){
+  // public function test_get_reservations_api(){
     
-  }
+  // }
 
-  public function test_update_reservations_api(){
+  // public function test_update_reservations_api(){
     
-  }
+  // }
 }

@@ -7,6 +7,7 @@ use App\Services\ReservationQueue;
 use App\Services\ReservationQueueRabbitmq;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class ReservationController extends Controller
@@ -33,20 +34,16 @@ class ReservationController extends Controller
     public function store(Request $request): JsonResponse
     {
         $reservationData = $request->validate([
-            'reservation_code' => 'required|string|unique:reservations,reservation_code',
             'customer_name' => 'required|string',
             'customer_email' => 'required|email',
             'arrival_time' => 'required|date',
-            'departure_time' => 'required|date',
-            'payment_status' => 'required|string'
+            'departure_time' => 'required|date'
         ]);
 
-        $reservation = Reservation::create($reservationData);
+        $reservationData['reservation_code'] = uniqid();
+        $reservationData['payment_status'] = 'pending'; // all new reservation payment status = pending
 
-        if($reservation->payment_status == 'paid'){
-            $reservationQueue = new ReservationQueue(env('AWS_RESERVATION_QUEUE'));
-            $reservationQueue->sendMessage($reservation);
-        }
+        $reservation = Reservation::create($reservationData);
 
         return response()->json($reservation, 200);
     }
@@ -78,13 +75,6 @@ class ReservationController extends Controller
             'departure_time' => 'date',
             'payment_status' => 'string'
         ]));
-
-        if($reservation->payment_status == 'paid'){
-            // $reservationQueue = new ReservationQueue(env('AWS_RESERVATION_QUEUE'));
-            // $reservationQueue->sendMessage($reservation);
-            $reservationQueue = new ReservationQueueRabbitmq(env('RABBITMQ_RESERVATION_QUEUE'));
-            $reservationQueue->sendMessge('test message');
-        }
 
         return response()->json($reservation, 200);
     }

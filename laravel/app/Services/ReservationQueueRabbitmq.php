@@ -14,7 +14,7 @@ class ReservationQueueRabbitmq
     private string $queueName
   ){}
 
-  public function sendMessge(string $message){
+  public function sendMessge(Reservation $reservation){
     $connection = new AMQPStreamConnection(
       env('RABBITMQ_HOST'),
       env('RABBITMQ_PORT'),
@@ -24,13 +24,15 @@ class ReservationQueueRabbitmq
     );
     $channel = $connection->channel();
     
-    $channel->exchange_declare('test_exchange', 'direct', false, false, false);
+    $channel->exchange_declare(env('RABBITMQ_EXCHANGE'), 'direct', false, false, false);
     $channel->queue_declare($this->queueName, false, false, false, false);
-    $channel->queue_bind($this->queueName, 'test_exchange', 'test_key');
+    $channel->queue_bind($this->queueName, env('RABBITMQ_EXCHANGE'), env('RABBITMQ_ROUTING_KEY'));
     
+    $message = json_encode($reservation);
+
     $amqpMessage = new AMQPMessage($message);
-    $channel->basic_publish($amqpMessage, 'test_exchange', 'test_key');
-    Log::info('Sent message to test_exchange/' . $this->queueName);
+    $channel->basic_publish($amqpMessage, env('RABBITMQ_EXCHANGE'), env('RABBITMQ_ROUTING_KEY'));
+    Log::info('Sent message Rabbitmq queue: ' . $message);
     
     $channel->close();
     $connection->close();
